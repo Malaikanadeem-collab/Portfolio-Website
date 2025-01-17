@@ -1,0 +1,33 @@
+name: Code Quality Checks
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Project Dependencies
+        run: |
+          npm init -y
+          npm install htmlhint stylelint --save-dev
+
+      - name: Run HTML Linter
+        run: npx htmlhint "*/.html"
+
+      - name: Run CSS Linter
+        run: npx stylelint "*/.css"
